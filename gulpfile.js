@@ -14,7 +14,7 @@ gulp.task('build-lib', function () {
 
 gulp.task('build-dist', function () {
     return rimraf('./dist').then(function (error) {
-        var webpackCli = 'webpack';
+        var webpackCli = 'webpack --config ./webpack/webpack.config.js && webpack --config ./webpack/webpack.config.min.js';
         return exec(webpackCli).fail(function (error) {
             console.log(error);
         });

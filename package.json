@@ -37,6 +37,7 @@
     "karma-webpack": "^1.5.1",
     "node-libs-browser": "^0.5.2",
     "rimraf-promise": "^1.0.0",
+    "uglify-loader": "^1.2.0",
     "webpack": "^1.10.0"
   }
 }
