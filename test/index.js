@@ -1,8 +1,13 @@
-import Chai from 'Chai';
-const assert = Chai.assert;
+//import Chai from 'Chai';
+//const assert = Chai.assert;
 
-describe('Something high-level', function() {
-    describe('Something low-level', function() {
-        assert.equal(1, 1);
+var Chai = require('Chai');
+var assert = Chai.assert;
+
+describe('Something abstract', function() {
+    describe('Something specific', function() {
+        it('Something', function() {
+            assert.equal(1, 1);
+        });
     });
 });
