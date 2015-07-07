@@ -1,6 +1,6 @@
 Formato
 ===
 
-![travis](https://travis-ci.org/gearz-lab/formato.svg)
+Formato is a tiny JavaScript library for formatting numbers.
 
-Formato is a small JavaScript library for formatting numbers
+Want to see what it is cabable of? Check out the [https://github.com/gearz-lab/formato/blob/master/test/index.js](tests).
