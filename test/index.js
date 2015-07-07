@@ -9,6 +9,9 @@ describe('unformat', function() {
     it('int', function() {
        assert.equal(formato.unformat('1,000,000'),1000000 );
     });
+    it('int with precision', function() {
+        assert.equal(formato.unformat('1,000,000.000', { precision: 3}),1000000 );
+    });
     it('float', function() {
         assert.equal(formato.unformat('2.33'), 2.33);
     });

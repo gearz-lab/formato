@@ -22,10 +22,10 @@ class Formato {
         if((options.thousand && !options.decimal) || (!options.thousand && options.decimal)) {
             return false;
         }
-        if (options.thousand === options.decimal) {
+        if (options.thousand && options.thousand === options.decimal) {
             return false;
         }
-        if (!isNaN(options.thousand) || !isNaN(options.decimal)) {
+        if (options.thousand && !isNaN(options.thousand) || options.decimal && !isNaN(options.decimal)) {
             return false;
         }
         return true;
