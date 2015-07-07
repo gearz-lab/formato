@@ -32,6 +32,21 @@ class Formato {
     }
 
     /**
+     * Returns whether a number is float
+     * @param number
+     * @returns {boolean}
+     * @private
+     */
+    _isFloat(number) {
+        return number===Number(number)  && number%1!==0;
+    }
+
+    toFixed(value, precision) {
+        var power = Math.pow(10, precision);
+        return (Math.round(value * power) / power).toFixed(precision);
+    }
+
+    /**
      * Converts the given number string to a number. If the string is not a number,
      * return NaN
      * @param value
@@ -44,8 +59,9 @@ class Formato {
             throw new Error('Options passed to unformat are not valid. When specifing thousand, decimal should also be specified. Thousand cannot be equal to decimal. Thousand and decimal should not be numbers');
         }
 
-        if(value === undefined || value === null)
+        if(value === undefined || value === null) {
             return NaN;
+        }
 
         let decimal = options && options.decimal ? options.decimal : this.defaultConfig.decimal;
         let thousand = options && options.thousand ? options.thousand : this.defaultConfig.thousand;
@@ -80,26 +96,19 @@ class Formato {
     format(number, options) {
 
         // config
-        let precision = options && options.precision ? options.precision : this.defaultConfig.precision;
+        let precision = options && (options.precision != undefined && options.precision != null ) ? options.precision : this.defaultConfig.precision;
         let thousand = options && options.thousand ? options.thousand : this.defaultConfig.thousand;
         let decimal = options && options.decimal ? options.decimal : this.defaultConfig.decimal;
-
-        // fixes precision
-        let toFixed = (value, precision) => {
-            precision = precision ? precision : this.defaultConfig.precision;
-            var power = Math.pow(10, precision);
-            return (Math.round(value * power) / power).toFixed(precision);
-        }
 
         // calculations
         let negativeSign = number < 0 ? "-" : "";
         let absNumber = Math.abs(number);
 
         // whether the passed number is a floating point.
-        let isFloat = absNumber % 1 != 0;
+        let hasDecimalPart = precision > 0;
 
         // integer part. If the number is 3,000.23, the integerPart is 3000
-        let integerPart = isFloat ? (parseInt(toFixed(absNumber, precision), 10) + "") : (absNumber + "");
+        let integerPart = hasDecimalPart || this._isFloat(number) ? (parseInt(this.toFixed(absNumber, precision), 10) + "") : (absNumber + "");
 
         // the size of the greates thousand group
         // example: For 12,345,00, the value is 12.
@@ -107,10 +116,12 @@ class Formato {
         let greatestThousandGroupSize = integerPart.length > 3 ? integerPart.length % 3 : 0;
 
         // format
-        return negativeSign
-            + (greatestThousandGroupSize ? integerPart.substr(0, greatestThousandGroupSize) + thousand : "")
-            + integerPart.substr(greatestThousandGroupSize).replace(/(\d{3})(?=\d)/g, "$1" + thousand)
-            + (isFloat ? decimal + toFixed(absNumber, precision).split('.')[1] : "");
+        let result = negativeSign;
+        result += (greatestThousandGroupSize ? integerPart.substr(0, greatestThousandGroupSize) + thousand : "");
+        result += integerPart.substr(greatestThousandGroupSize).replace(/(\d{3})(?=\d)/g, "$1" + thousand);
+        result += (hasDecimalPart ? decimal + this.toFixed(absNumber, precision).split('.')[1] : "");
+
+        return result;
     }
 }
 

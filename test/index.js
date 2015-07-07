@@ -5,6 +5,21 @@ import formato from '../src/formato.js';
 import Chai from 'Chai';
 let assert = Chai.assert;
 
+describe('toFixed', function() {
+    it('int - normal precision', function() {
+        assert.equal(formato.toFixed(2, 2), '2.00');
+    });
+    it('int - zero precision', function() {
+        assert.equal(formato.toFixed(2, 0), '2');
+    });
+    it('float - normal precision', function() {
+        assert.equal(formato.toFixed(2.2, 2), '2.20');
+    });
+    it('float - zero precision', function() {
+        assert.equal(formato.toFixed(2.2, 0), '2');
+    })
+})
+
 describe('unformat', function() {
     it('int', function() {
        assert.equal(formato.unformat('1,000,000'),1000000 );
@@ -50,13 +65,22 @@ describe('unformat', function() {
 });
 
 describe('format', function() {
-    it('Integer', function() {
-        assert.equal(formato.format(1000), '1,000');
+    it('int', function() {
+        assert.equal(formato.format(1000), '1,000.00');
     });
-    it('Float, not passing precision', function() {
+    it('int without precision', function() {
+        assert.equal(formato.format(1000, { precision: 0 }), '1,000');
+    });
+    it('int with precision', function() {
+        assert.equal(formato.format(200, {precision: 2}), '200.00');
+    });
+    it('float, not passing precision', function() {
         assert.equal(formato.format(1000.2), '1,000.20');
     });
-    it('Float, passing precision', function() {
+    it('float, passing precision', function() {
         assert.equal(formato.format(1000.2, { precision: 3 }), '1,000.200');
+    });
+    it('float, zero precision', function() {
+        assert.equal(formato.format(1000.2, { precision: 0 }), '1,000');
     });
 });

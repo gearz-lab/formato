@@ -1,6 +1,6 @@
 {
   "name": "formato",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A JavaScript library for formatting numbers",
   "main": "./lib/formato.js",
   "scripts": {
