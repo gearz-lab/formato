@@ -72,7 +72,7 @@ describe('format', function() {
         assert.equal(formato.format(1000, { precision: 0 }), '1,000');
     });
     it('int with precision', function() {
-        assert.equal(formato.format(200, {precision: 2}), '200.00');
+        assert.equal(formato.format(300, {precision: 2}), '300.00');
     });
     it('float, not passing precision', function() {
         assert.equal(formato.format(1000.2), '1,000.20');
